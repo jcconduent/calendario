@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calendar Events</title>
+</head>
+<body>
+    <h1>Events Calendar</h1>
+    <form action="{{ url_for('add_event') }}" method="post">
+        <input type="text" name="title" placeholder="Event Title" required>
+        <input type="date" name="date" required>
+        <button type="submit">Add Event</button>
+    </form>
+    
+    <h2>Event List</h2>
+    <ul>
+        {% for event in events %}
+        <li>
+            {{ event['title'] }} ({{ event['date'] }})
+            <form action="{{ url_for('delete_event', event_id=event['id']) }}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+            <form action="{{ url_for('edit_event', event_id=event['id']) }}" method="post" style="display:inline;">
+                <input type="text" name="title" value="{{ event['title'] }}" required>
+                <input type="date" name="date" value="{{ event['date'] }}" required>
+                <button type="submit">Edit</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
